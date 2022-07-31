@@ -35,11 +35,6 @@ class Sikoja extends Model
         return $this->belongsTo(Street::class);
     }
 
-    public function category()
-    {
-        return $this->belongsTo(Category::class);
-    }
-
     public function status()
     {
         return $this->belongsTo(Status::class);

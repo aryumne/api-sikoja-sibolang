@@ -17,7 +17,7 @@ class SikojaController extends Controller
         try {
             $response = [
                 'message' => "Data Pengaduan SIKOJA",
-                'data' => Sikoja::with(['village', 'street', 'category', 'status', 'galery'])->latest()->get()
+                'data' => Sikoja::with(['village', 'street', 'status', 'galery'])->latest()->get()
             ];
             return response()->json($response, Response::HTTP_OK);
         } catch (QueryException $e) {
@@ -31,7 +31,7 @@ class SikojaController extends Controller
     public function show($id)
     {
         try {
-            $sikoja = Sikoja::where('id', $id)->with(['village', 'street', 'category', 'status', 'sikojadisp', 'galery'])->get();
+            $sikoja = Sikoja::where('id', $id)->with(['village', 'street', 'status', 'sikojadisp', 'galery'])->get();
             if (count($sikoja) == 0) {
                 return response()->json([
                     "error" => "Data tidak ditemukan!",
@@ -58,8 +58,7 @@ class SikojaController extends Controller
             'name' => ['required', 'string'],
             'hp' => ['required', 'string'],
             'village_id' => ['required', 'numeric'],
-            'street_id' => ['required', 'numeric'],
-            'category_id' => ['required', 'numeric'],
+            'street_id' => ['numeric', 'nullable'],
         ]);
 
         if ($validator->fails()) {
@@ -76,7 +75,6 @@ class SikojaController extends Controller
                 'hp' => $input->hp,
                 'village_id' => $input->village_id,
                 'street_id' => $input->street_id,
-                'category_id' => $input->category_id,
                 'status_id' => 1,
             ]);
             $response = [
