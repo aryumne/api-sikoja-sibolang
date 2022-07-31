@@ -22,7 +22,7 @@ class Sikoja extends Model
 
     public function galery()
     {
-        return $this->hasOne(Galery::class);
+        return $this->hasMany(Galery::class);
     }
 
     public function village()
