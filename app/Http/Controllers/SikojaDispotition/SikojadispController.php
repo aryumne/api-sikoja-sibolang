@@ -30,7 +30,7 @@ class SikojadispController extends Controller
     public function show($id)
     {
         try {
-            $sikojadisp = Sikojadisp::where('id', $id)->with(['sikoja', 'file', 'instance'])->get();
+            $sikojadisp = Sikojadisp::where('sikoja_id', $id)->with(['sikoja', 'file', 'instance'])->get();
             if (count($sikojadisp) == 0) {
                 return response()->json([
                     "error" => "Data tidak ditemukan!",
