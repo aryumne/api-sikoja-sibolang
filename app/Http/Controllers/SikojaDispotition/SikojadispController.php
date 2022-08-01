@@ -80,7 +80,8 @@ class SikojadispController extends Controller
     {
         $validator = Validator::make($input->all(), [
             'instance_id' => ["required", "numeric"],
-            'validate_date' => ["required"],
+            'start_date' => ["required"],
+            'estimation_date' => ["required"],
             'description' => ["required", "string"]
         ]);
 
@@ -92,7 +93,8 @@ class SikojadispController extends Controller
         try {
             Sikojadisp::findOrFail($id)->update([
                 'instance_id' => $input->instance_id,
-                'validate_date' => $input->validate_date,
+                'start_date' => $input->start_date,
+                'estimation_date' => $input->estimation_date,
                 'description' => $input->description,
             ]);
             $response = [

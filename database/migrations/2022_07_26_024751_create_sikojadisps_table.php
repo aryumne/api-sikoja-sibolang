@@ -18,7 +18,8 @@ class CreateSikojadispsTable extends Migration
             $table->string('description')->nullable();
             $table->foreignId('sikoja_id');
             $table->foreignId('instance_id');
-            $table->dateTime('validate_date')->nullable();
+            $table->dateTime('start_date')->nullable();
+            $table->dateTime('estimation_date')->nullable();
             $table->timestamps();
         });
     }
