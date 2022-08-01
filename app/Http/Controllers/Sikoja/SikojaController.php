@@ -22,8 +22,7 @@ class SikojaController extends Controller
             return response()->json($response, Response::HTTP_OK);
         } catch (QueryException $e) {
             return response()->json([
-                'message' => "Gagal Mengambil Data",
-                'error' => $e->errorInfo,
+                'message' => $e->errorInfo,
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
     }
@@ -34,7 +33,7 @@ class SikojaController extends Controller
             $sikoja = Sikoja::where('id', $id)->with(['village', 'street', 'status', 'sikojadisp', 'galery'])->get();
             if (count($sikoja) == 0) {
                 return response()->json([
-                    "error" => "Data tidak ditemukan!",
+                    "message" => "Data tidak ditemukan!",
                 ], Response::HTTP_BAD_REQUEST);
             }
             $response = [
@@ -44,8 +43,7 @@ class SikojaController extends Controller
             return response()->json($response, Response::HTTP_OK);
         } catch (QueryException $e) {
             return response()->json([
-                'message' => "Gagal Mengambil Data",
-                'error' => $e->errorInfo,
+                'message' => $e->errorInfo,
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
     }
@@ -63,8 +61,7 @@ class SikojaController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'message' => 'Validasi Data Gagal!',
-                'error' => $validator->errors(),
+                'message' => $validator->errors(),
             ], Response::HTTP_BAD_REQUEST);
         }
         try {
@@ -84,8 +81,7 @@ class SikojaController extends Controller
             return response()->json($response, Response::HTTP_CREATED);
         } catch (QueryException $e) {
             return response()->json([
-                'message' => "Gagal menyimpan data",
-                'error' => $e->errorInfo,
+                'message' => $e->errorInfo,
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
     }
@@ -98,8 +94,7 @@ class SikojaController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'message' => 'Validasi Data Gagal!',
-                'error' => $validator->errors(),
+                'message' => $validator->errors(),
             ], Response::HTTP_BAD_REQUEST);
         }
         try {
@@ -109,8 +104,7 @@ class SikojaController extends Controller
             return response()->json(['message' => "Status Telah Diubah"], Response::HTTP_CREATED);
         } catch (QueryException $e) {
             return response()->json([
-                'message' => "Gagal mengubah status",
-                'error' => $e->errorInfo,
+                'message' => $e->errorInfo,
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
     }

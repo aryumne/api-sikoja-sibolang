@@ -21,8 +21,7 @@ class SikojadispController extends Controller
             return response()->json($response, Response::HTTP_OK);
         } catch (QueryException $e) {
             return response()->json([
-                'message' => "Gagal Mengambil Data",
-                'error' => $e->errorInfo,
+                'message' => $e->errorInfo,
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
     }
@@ -31,9 +30,9 @@ class SikojadispController extends Controller
     {
         try {
             $sikojadisp = Sikojadisp::where('sikoja_id', $id)->with(['sikoja', 'file', 'instance'])->get();
-            if (count($sikojadisp) == 0) {
+            if (count($sikojadisp) === 0) {
                 return response()->json([
-                    "error" => "Data tidak ditemukan!",
+                    "message" => "Data tidak ditemukan!",
                 ], Response::HTTP_BAD_REQUEST);
             }
             $response = [
@@ -43,8 +42,7 @@ class SikojadispController extends Controller
             return response()->json($response, Response::HTTP_OK);
         } catch (QueryException $e) {
             return response()->json([
-                'message' => "Gagal Mengambil Data",
-                'error' => $e->errorInfo,
+                'message' => $e->errorInfo,
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
     }
@@ -58,8 +56,7 @@ class SikojadispController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'message' => 'Validasi Data Gagal!',
-                'error' => $validator->errors(),
+                'message' => $validator->errors(),
             ], Response::HTTP_BAD_REQUEST);
         }
         try {
@@ -74,8 +71,7 @@ class SikojadispController extends Controller
             return response()->json($response, Response::HTTP_CREATED);
         } catch (QueryException $e) {
             return response()->json([
-                'message' => "Gagal menyimpan data",
-                'error' => $e->errorInfo,
+                'message' => $e->errorInfo,
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
     }
@@ -90,8 +86,7 @@ class SikojadispController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'message' => 'Validasi Data Gagal!',
-                'error' => $validator->errors(),
+                'message' => $validator->errors(),
             ], Response::HTTP_BAD_REQUEST);
         }
         try {
@@ -106,8 +101,7 @@ class SikojadispController extends Controller
             return response()->json($response, Response::HTTP_CREATED);
         } catch (QueryException $e) {
             return response()->json([
-                'message' => "Gagal mengupdate data",
-                'error' => $e->errorInfo,
+                'message' => $e->errorInfo,
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
     }

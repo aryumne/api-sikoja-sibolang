@@ -20,8 +20,7 @@ class GaleryController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'message' => 'Validasi Data Gagal!',
-                'error' => $validator->errors(),
+                'message' => $validator->errors(),
             ], Response::HTTP_BAD_REQUEST);
         }
         try {
@@ -36,8 +35,7 @@ class GaleryController extends Controller
             return response()->json(['message' => "Image Berhasil Diupload"], Response::HTTP_CREATED);
         } catch (QueryException $e) {
             return response()->json([
-                'message' => "Gagal mengupload image",
-                'error' => $e->errorInfo,
+                'message' => $e->errorInfo,
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
     }

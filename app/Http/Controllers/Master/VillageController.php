@@ -21,8 +21,7 @@ class VillageController extends Controller
             return response()->json($response, Response::HTTP_OK);
         } catch (QueryException $e) {
             return response()->json([
-                "message" => "Gagal mengambil data",
-                "error" => $e->errorInfo
+                "message" => $e->errorInfo
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
     }
@@ -36,8 +35,7 @@ class VillageController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                "message" => "Validasi data gagal!",
-                "error" => $validator->errors()
+                "message" => $validator->errors()
             ], Response::HTTP_BAD_REQUEST);
         }
 
@@ -53,8 +51,7 @@ class VillageController extends Controller
             return response()->json($response, Response::HTTP_CREATED);
         } catch (QueryException $e) {
             return response()->json([
-                "message" => "Gagal menyimpan data",
-                "error" => $e->errorInfo
+                "message" => $e->errorInfo
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
     }
@@ -65,7 +62,7 @@ class VillageController extends Controller
             $village = Village::where('id', $id)->with('district')->get();
             if (count($village) == 0) {
                 return response()->json([
-                    "error" => "Data tidak ditemukan!",
+                    "message" => "Data tidak ditemukan!",
                 ], Response::HTTP_BAD_REQUEST);
             }
             $response = [
@@ -75,8 +72,7 @@ class VillageController extends Controller
             return response()->json($response, Response::HTTP_OK);
         } catch (QueryException $e) {
             return response()->json([
-                "message" => "Gagal mengambil data",
-                "error" => $e->errorInfo
+                "message" => $e->errorInfo
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
     }
@@ -90,8 +86,7 @@ class VillageController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                "message" => "Validasi data gagal!",
-                "error" => $validator->errors()
+                "message" => $validator->errors()
             ], Response::HTTP_BAD_REQUEST);
         }
 
@@ -99,7 +94,7 @@ class VillageController extends Controller
             $village = Village::find($id);
             if (!$village) {
                 return response()->json([
-                    "error" => "Data tidak ditemukan!",
+                    "message" => "Data tidak ditemukan!",
                 ], Response::HTTP_BAD_REQUEST);
             }
             $village->village = $input->village;
@@ -110,8 +105,7 @@ class VillageController extends Controller
             ], Response::HTTP_CREATED);
         } catch (QueryException $e) {
             return response()->json([
-                "message" => "Gagal menyimpan data",
-                "error" => $e->errorInfo
+                "message" =>  $e->errorInfo
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
     }
@@ -122,7 +116,7 @@ class VillageController extends Controller
             $village = Village::find($id);
             if (!$village) {
                 return response()->json([
-                    "error" => "Data tidak ditemukan!",
+                    "message" => "Data tidak ditemukan!",
                 ], Response::HTTP_BAD_REQUEST);
             }
             $village->delete();
@@ -131,8 +125,7 @@ class VillageController extends Controller
             ], Response::HTTP_OK);
         } catch (QueryException $e) {
             return response()->json([
-                "message" => "Gagal menghapus data",
-                "error" => $e->errorInfo
+                "message" => $e->errorInfo
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
     }
