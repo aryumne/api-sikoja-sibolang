@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\File;
+use App\Models\Sikoja;
+use App\Models\Instance;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Sikojadisp extends Model
 {
@@ -15,8 +18,13 @@ class Sikojadisp extends Model
         return $this->belongsTo(Sikoja::class);
     }
 
-    public function files()
+    public function file()
     {
-        return $this->belongsTo(File::class);
+        return $this->hasMany(File::class);
+    }
+
+    public function instance()
+    {
+        return $this->belongsTo(Instance::class);
     }
 }

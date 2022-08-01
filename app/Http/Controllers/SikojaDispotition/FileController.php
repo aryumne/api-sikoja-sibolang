@@ -14,7 +14,8 @@ class FileController extends Controller
     public function uploadFiles(Request $input)
     {
         $validator = Validator::make($input->all(), [
-            'file' => ['required', 'mimes:png,jpg,mp4,mov,jpeg,pdf', 'file', 'max:20480']
+            'file' => ['required', 'mimes:png,jpg,mp4,mov,jpeg,pdf', 'file', 'max:20480'],
+            'sikojadisp_id' => ['required', 'numeric']
         ]);
 
         if ($validator->fails()) {
@@ -28,7 +29,7 @@ class FileController extends Controller
             $fileName = $file->getClientOriginalName();
             $storeImage = $file->storeAs('file', str_replace(" ", "-", $fileName));
             File::create([
-                'sikojadisp_id' => 1,
+                'sikojadisp_id' => $input->sikojadisp_id,
                 'path' => $storeImage,
                 'filename' => $fileName
             ]);

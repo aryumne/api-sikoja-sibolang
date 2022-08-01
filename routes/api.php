@@ -7,6 +7,7 @@ use App\Http\Controllers\Sikoja\GaleryController;
 use App\Http\Controllers\Sikoja\SikojaController;
 use App\Http\Controllers\Master\VillageController;
 use App\Http\Controllers\Master\CategoryController;
+use App\Http\Controllers\Master\InstanceController;
 use App\Http\Controllers\SikojaDispotition\FileController;
 use App\Http\Controllers\SikojaDispotition\SikojadispController;
 
@@ -34,12 +35,14 @@ Route::post('uploadGalery', [GaleryController::class, 'uploadGaleries']);
 
 //sikojadips
 Route::get('sikojadisp', [SikojadispController::class, 'index']);
+Route::get('sikojadisp/{id}', [SikojadispController::class, 'show']);
 Route::post('sikojadisp', [SikojadispController::class, 'store']);
 Route::patch('sikojadisp/{id}', [SikojadispController::class, 'update']);
 Route::post('uploadFile', [FileController::class, 'uploadFiles']);
 
 
-//village
+//mnaster
 Route::resource('village', VillageController::class)->except(['create', 'edit', 'destroy']);
 Route::resource('street', StreetController::class)->except(['create', 'edit', 'destroy']);
 Route::resource('category', CategoryController::class)->except(['create', 'edit', 'destroy']);
+Route::resource('instance', InstanceController::class)->except(['create', 'edit', 'destroy']);

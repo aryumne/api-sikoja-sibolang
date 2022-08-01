@@ -16,7 +16,29 @@ class SikojadispController extends Controller
         try {
             $response = [
                 'message' => "Data Disposisi SIKOJA",
-                'data' => Sikojadisp::latest()->get()
+                'data' => Sikojadisp::with(['sikoja', 'file', 'instance'])->latest()->get()
+            ];
+            return response()->json($response, Response::HTTP_OK);
+        } catch (QueryException $e) {
+            return response()->json([
+                'message' => "Gagal Mengambil Data",
+                'error' => $e->errorInfo,
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+    }
+
+    public function show($id)
+    {
+        try {
+            $sikojadisp = Sikojadisp::where('id', $id)->with(['sikoja', 'file', 'instance'])->get();
+            if (count($sikojadisp) == 0) {
+                return response()->json([
+                    "error" => "Data tidak ditemukan!",
+                ], Response::HTTP_BAD_REQUEST);
+            }
+            $response = [
+                'message' => "Data Pengaduan SIKOJA",
+                'data' => $sikojadisp
             ];
             return response()->json($response, Response::HTTP_OK);
         } catch (QueryException $e) {
