@@ -51,11 +51,11 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 //mnaster
-Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+Route::middleware(['auth:sanctum', 'isVerified'])->group(function () {
     Route::get('user', [AuthController::class, 'user']);
     Route::post('logout', [AuthController::class, 'logout']);
     Route::resource('village', VillageController::class)->except(['create', 'edit', 'destroy']);
-    Route::resource('street', StreetController::class)->except(['create', 'edit', 'destroy']);
-    Route::resource('category', CategoryController::class)->except(['create', 'edit', 'destroy']);
-    Route::resource('instance', InstanceController::class)->except(['create', 'edit', 'destroy']);
+    Route::resource('street', StreetController::class)->except(['create', 'edit', 'show', 'destroy']);
+    Route::resource('category', CategoryController::class)->except(['create', 'edit', 'show', 'destroy']);
+    Route::resource('instance', InstanceController::class)->except(['create', 'edit', 'show']);
 });

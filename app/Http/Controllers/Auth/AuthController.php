@@ -33,7 +33,7 @@ class AuthController extends Controller
             if ($user->hasVerifiedEmail()) {
                 return response()->json([
                     'message' => 'Akun anda sudah di verifikasi sebelumnya'
-                ], Response::HTTP_ACCEPTED);
+                ], Response::HTTP_FORBIDDEN);
             }
             $user->email_verified_at = now();
             $user->save();
@@ -63,13 +63,13 @@ class AuthController extends Controller
             if ($user->hasVerifiedEmail()) {
                 return response()->json([
                     'message' => 'Akun anda sudah di verifikasi'
-                ], Response::HTTP_ACCEPTED);
+                ], Response::HTTP_FORBIDDEN);
             } else {
                 // kalau belum maka kirimkan email verifikasi
                 Notification::send($user, new SendNotification($user));
                 return response()->json([
                     'message' => 'Link verfikasi telah dikirim ke email anda'
-                ], Response::HTTP_ACCEPTED);
+                ], Response::HTTP_OK);
             }
         } catch (QueryException $e) {
             return response()->json([
@@ -92,7 +92,7 @@ class AuthController extends Controller
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
     }
-    
+
     public function login(Request $input)
     {
         $validator = Validator::make($input->all(), [
