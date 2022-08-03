@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Master\StatusController;
 use App\Http\Controllers\Master\StreetController;
 use App\Http\Controllers\Sikoja\GaleryController;
 use App\Http\Controllers\Sikoja\SikojaController;
@@ -64,5 +65,6 @@ Route::middleware(['auth:sanctum', 'isVerified', 'isAdmin'])->group(function () 
     Route::resource('street', StreetController::class)->except(['create', 'edit', 'show', 'destroy']);
     Route::resource('category', CategoryController::class)->except(['create', 'edit', 'show', 'destroy']);
     Route::resource('instance', InstanceController::class)->except(['create', 'edit', 'show']);
+    Route::resource('status', StatusController::class)->except(['create', 'edit', 'show']);
     Route::post('sikojadisp', [SikojadispController::class, 'store']);
 });
