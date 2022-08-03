@@ -35,6 +35,10 @@ Route::post('uploadGalery', [GaleryController::class, 'uploadGaleries']);
 Route::get('sikojadisp', [SikojadispController::class, 'index']);
 Route::get('sikojadisp/{id}', [SikojadispController::class, 'show']);
 
+Route::get('category', [CategoryController::class, 'index']);
+Route::get('instance', [InstanceController::class, 'index']);
+Route::get('street', [StreetController::class, 'index']);
+Route::get('village', [VillageController::class, 'index']);
 //Auth
 Route::post('login', [AuthController::class, 'login']);
 
@@ -59,12 +63,20 @@ Route::middleware(['auth:sanctum', 'isVerified'])->group(function () {
 
 // must verified and just admin
 Route::middleware(['auth:sanctum', 'isVerified', 'isAdmin'])->group(function () {
+    Route::post('street', [StreetController::class, 'store']);
+    Route::patch('street/{id}', [StreetController::class, 'update']);
+    Route::delete('street/{id}', [StreetController::class, 'destroy']);
+    Route::post('village', [VillageController::class, 'store']);
+    Route::patch('village/{id}', [VillageController::class, 'update']);
+    Route::delete('village/{id}', [VillageController::class, 'destroy']);
     Route::post('register', [AuthController::class, 'register']);
     Route::get('user', [AuthController::class, 'user']);
-    Route::resource('village', VillageController::class)->except(['create', 'edit']);
-    Route::resource('street', StreetController::class)->except(['create', 'edit', 'show', 'destroy']);
-    Route::resource('category', CategoryController::class)->except(['create', 'edit', 'show', 'destroy']);
-    Route::resource('instance', InstanceController::class)->except(['create', 'edit', 'show']);
-    Route::resource('status', StatusController::class)->except(['create', 'edit', 'show']);
+    Route::post('category', [CategoryController::class, 'store']);
+    Route::patch('category/{id}', [CategoryController::class, 'update']);
+    Route::post('instance', [InstanceController::class, 'store']);
+    Route::patch('instance', [InstanceController::class, 'update']);
+    Route::get('status', [StatusController::class, 'index']);
+    Route::post('status', [StatusController::class, 'store']);
+    Route::patch('status', [StatusController::class, 'update']);
     Route::post('sikojadisp', [SikojadispController::class, 'store']);
 });
