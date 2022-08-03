@@ -23,39 +23,46 @@ use App\Http\Controllers\SikojaDispotition\SikojadispController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
 
 //sikoja
 Route::get('sikoja', [SikojaController::class, 'index']);
 Route::get('sikoja/{id}', [SikojaController::class, 'show']);
 Route::post('sikoja', [SikojaController::class, 'store']);
-Route::patch('updateStatus/{id}', [SikojaController::class, 'updateStatus']);
 Route::post('uploadGalery', [GaleryController::class, 'uploadGaleries']);
 
 //sikojadips
 Route::get('sikojadisp', [SikojadispController::class, 'index']);
 Route::get('sikojadisp/{id}', [SikojadispController::class, 'show']);
-Route::post('sikojadisp', [SikojadispController::class, 'store']);
-Route::patch('sikojadisp/{id}', [SikojadispController::class, 'update']);
-Route::post('uploadFile', [FileController::class, 'uploadFiles']);
 
 //Auth
-Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
+
+
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('resend-verify-email', [AuthController::class, 'resendEmailVerification']);
     Route::post('verify-email', [AuthController::class, 'verifyEmail']);
 });
 
-//mnaster
+//must verified
 Route::middleware(['auth:sanctum', 'isVerified'])->group(function () {
-    Route::get('user', [AuthController::class, 'user']);
     Route::post('logout', [AuthController::class, 'logout']);
-    Route::resource('village', VillageController::class)->except(['create', 'edit', 'destroy']);
+    // data master
+
+    //update status sikoja
+    Route::patch('updateStatus/{id}', [SikojaController::class, 'updateStatus']);
+    //disposition sikoja
+    Route::patch('sikojadisp/{id}', [SikojadispController::class, 'update']);
+    Route::post('uploadFile', [FileController::class, 'uploadFiles']);
+});
+
+// must verified and just admin
+Route::middleware(['auth:sanctum', 'isVerified', 'isAdmin'])->group(function () {
+    Route::post('register', [AuthController::class, 'register']);
+    Route::get('user', [AuthController::class, 'user']);
+    Route::resource('village', VillageController::class)->except(['create', 'edit']);
     Route::resource('street', StreetController::class)->except(['create', 'edit', 'show', 'destroy']);
     Route::resource('category', CategoryController::class)->except(['create', 'edit', 'show', 'destroy']);
     Route::resource('instance', InstanceController::class)->except(['create', 'edit', 'show']);
+    Route::post('sikojadisp', [SikojadispController::class, 'store']);
 });

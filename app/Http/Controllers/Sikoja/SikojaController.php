@@ -98,9 +98,14 @@ class SikojaController extends Controller
             ], Response::HTTP_BAD_REQUEST);
         }
         try {
-            Sikoja::findOrFail($id)->update([
-                "status_id" => $input->status_id,
-            ]);
+            $sikoja = Sikoja::find($id);
+            if (!$sikoja) {
+                return response()->json([
+                    "message" => "Data tidak ditemukan!",
+                ], Response::HTTP_BAD_REQUEST);
+            }
+            $sikoja->status_id = $input->status_id;
+            $sikoja->save();
             return response()->json(['message' => "Status Telah Diubah"], Response::HTTP_CREATED);
         } catch (QueryException $e) {
             return response()->json([

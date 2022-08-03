@@ -39,7 +39,7 @@ class AuthController extends Controller
             $user->save();
             return response()->json([
                 'message' => 'Akun terverifikasi',
-            ], Response::HTTP_OK);
+            ], Response::HTTP_ACCEPTED);
         } catch (QueryException $e) {
             return response()->json([
                 'message' => $e->errorInfo
@@ -127,7 +127,7 @@ class AuthController extends Controller
                         'user' => $user,
                         'token' => $user->createToken('bareerToken')->plainTextToken,
                     ]
-                ], Response::HTTP_OK);
+                ], Response::HTTP_ACCEPTED);
             } else {
                 return response()->json([
                     'message' => 'User tidak ditemukan'
@@ -144,7 +144,7 @@ class AuthController extends Controller
     {
         $validator = Validator::make($input->all(), [
             'name' => ['required', 'string'],
-            'username' => ['required', 'string'],
+            'username' => ['required', 'string', 'unique:users'],
             'email' => ['required', 'email:rfc,dns', 'unique:users'],
             'password' => ['required', 'confirmed', Password::min(8)],
             'role_id' => ['required', 'numeric'],
