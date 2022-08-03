@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Master\StreetController;
 use App\Http\Controllers\Sikoja\GaleryController;
 use App\Http\Controllers\Sikoja\SikojaController;
@@ -40,9 +41,21 @@ Route::post('sikojadisp', [SikojadispController::class, 'store']);
 Route::patch('sikojadisp/{id}', [SikojadispController::class, 'update']);
 Route::post('uploadFile', [FileController::class, 'uploadFiles']);
 
+//Auth
+Route::post('register', [AuthController::class, 'register']);
+Route::post('login', [AuthController::class, 'login']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('resend-verify-email', [AuthController::class, 'resendEmailVerification']);
+    Route::post('verify-email', [AuthController::class, 'verifyEmail']);
+});
 
 //mnaster
-Route::resource('village', VillageController::class)->except(['create', 'edit', 'destroy']);
-Route::resource('street', StreetController::class)->except(['create', 'edit', 'destroy']);
-Route::resource('category', CategoryController::class)->except(['create', 'edit', 'destroy']);
-Route::resource('instance', InstanceController::class)->except(['create', 'edit', 'destroy']);
+Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+    Route::get('user', [AuthController::class, 'user']);
+    Route::post('logout', [AuthController::class, 'logout']);
+    Route::resource('village', VillageController::class)->except(['create', 'edit', 'destroy']);
+    Route::resource('street', StreetController::class)->except(['create', 'edit', 'destroy']);
+    Route::resource('category', CategoryController::class)->except(['create', 'edit', 'destroy']);
+    Route::resource('instance', InstanceController::class)->except(['create', 'edit', 'destroy']);
+});

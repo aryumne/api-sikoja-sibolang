@@ -29,7 +29,7 @@ class FileController extends Controller
             $storeImage = $file->storeAs('file', str_replace(" ", "-", $fileName));
             File::create([
                 'sikojadisp_id' => $input->sikojadisp_id,
-                'path' => $storeImage,
+                'path' => 'storage/' . $storeImage,
                 'filename' => $fileName
             ]);
             return response()->json(['message' => "File Berhasil Diupload"], Response::HTTP_CREATED);
