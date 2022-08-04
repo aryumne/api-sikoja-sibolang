@@ -71,6 +71,7 @@ Route::middleware(['auth:sanctum', 'isVerified', 'isAdmin'])->group(function () 
     Route::delete('village/{id}', [VillageController::class, 'destroy']);
     Route::post('register', [AuthController::class, 'register']);
     Route::get('user', [AuthController::class, 'user']);
+    Route::get('check-token', [AuthController::class, 'tokenCheck']);
     Route::post('category', [CategoryController::class, 'store']);
     Route::patch('category/{id}', [CategoryController::class, 'update']);
     Route::post('instance', [InstanceController::class, 'store']);

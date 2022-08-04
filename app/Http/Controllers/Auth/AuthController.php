@@ -140,6 +140,15 @@ class AuthController extends Controller
         }
     }
 
+    public function tokenCheck()
+    {
+        try {
+            return response()->json(['true'], Response::HTTP_OK);
+        } catch (QueryException $e) {
+            return response()->json(['false'], Response::HTTP_UNAUTHORIZED);
+        }
+    }
+
     public function register(Request $input)
     {
         $validator = Validator::make($input->all(), [
