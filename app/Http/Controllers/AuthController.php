@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -91,6 +91,17 @@ class AuthController extends Controller
                 "message" => $e->errorInfo
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
+    }
+    public function signin(Request $input)
+    {
+        $user = User::where('username', $input->username)->first();
+        return response()->json([
+            'message' => 'Berhasil Login',
+            'data' => [
+                'user' => $user,
+                'token' => $user->createToken('bareerToken')->plainTextToken,
+            ]
+        ], Response::HTTP_ACCEPTED);
     }
 
     public function login(Request $input)

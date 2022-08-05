@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Master\StatusController;
 use App\Http\Controllers\Master\StreetController;
 use App\Http\Controllers\Sikoja\GaleryController;
@@ -39,6 +39,7 @@ Route::get('category', [CategoryController::class, 'index']);
 Route::get('instance', [InstanceController::class, 'index']);
 Route::get('street', [StreetController::class, 'index']);
 Route::get('village', [VillageController::class, 'index']);
+Route::post('signin', [VillageController::class, 'signin']);
 //Auth
 Route::post('login', [AuthController::class, 'login']);
 

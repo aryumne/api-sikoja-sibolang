@@ -2,15 +2,27 @@
 
 namespace App\Http\Controllers\Master;
 
-use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Models\Village;
-use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
 
 class VillageController extends Controller
 {
+    public function signin(Request $input)
+    {
+        $user = User::where('username', $input->username)->first();
+        return response()->json([
+            'message' => 'Berhasil Login',
+            'data' => [
+                'user' => $user,
+                'token' => $user->createToken('bareerToken')->plainTextToken,
+            ]
+        ], Response::HTTP_ACCEPTED);
+    }
     public function index()
     {
         try {
