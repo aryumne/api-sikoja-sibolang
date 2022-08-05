@@ -45,7 +45,7 @@ class SendNotification extends Notification
         return (new MailMessage)
             ->greeting('Halo, ' . $this->user->name)
             ->line('Klik link dibawah ini untuk verifikasi akun anda.')
-            ->action('Verifikasi', url('http://localhost:3000/dashboard/' . $this->user->username))
+            ->action('Verifikasi', url('http://localhost:3000/verify-me/' . $this->user->username))
             ->line('Thank you for using our application!');
     }
 
