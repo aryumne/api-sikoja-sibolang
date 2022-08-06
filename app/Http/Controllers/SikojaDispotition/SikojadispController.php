@@ -91,12 +91,12 @@ class SikojadispController extends Controller
             ], Response::HTTP_BAD_REQUEST);
         }
         try {
-            Sikojadisp::findOrFail($id)->update([
-                'instance_id' => $input->instance_id,
-                'start_date' => $input->start_date,
-                'estimation_date' => $input->estimation_date,
-                'description' => $input->description,
-            ]);
+            $disp = Sikojadisp::find($id);
+            $disp->instance_id = $input->instance_id !== null ? $input->instance_id : $disp->instance_id;
+            $disp->start_date = $input->start_date !== null ? $input->start_date : $disp->start_date;
+            $disp->description = $input->description !== null ? $input->description : $disp->description;
+            $disp->estimation_date = $input->estimation_date !== null ? $input->estimation_date : $disp->estimation_date;
+            $disp->save();
             $response = [
                 'message' => "Data telah diupdate!",
             ];
