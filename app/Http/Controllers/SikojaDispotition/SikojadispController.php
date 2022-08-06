@@ -79,10 +79,10 @@ class SikojadispController extends Controller
     public function update(Request $input, $id)
     {
         $validator = Validator::make($input->all(), [
-            'instance_id' => ["required", "numeric"],
-            'start_date' => ["required"],
-            'estimation_date' => ["required"],
-            'description' => ["required", "string"]
+            'instance_id' => ["numeric", "nullable"],
+            'start_date' => ["string", 'nullable'],
+            'estimation_date' => ["string", 'nullable'],
+            'description' => ["string", "nullable"]
         ]);
 
         if ($validator->fails()) {

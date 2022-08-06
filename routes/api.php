@@ -39,7 +39,6 @@ Route::get('category', [CategoryController::class, 'index']);
 Route::get('instance', [InstanceController::class, 'index']);
 Route::get('street', [StreetController::class, 'index']);
 Route::get('village', [VillageController::class, 'index']);
-Route::post('signin', [VillageController::class, 'signin']);
 //Auth
 Route::post('login', [AuthController::class, 'login']);
 
@@ -53,8 +52,7 @@ Route::middleware('auth:sanctum')->group(function () {
 //must verified
 Route::middleware(['auth:sanctum', 'isVerified'])->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);
-    // data master
-
+    Route::patch('user/{id}', [AuthController::class, 'updateProfile']);
     //update status sikoja
     Route::patch('updateStatus/{id}', [SikojaController::class, 'updateStatus']);
     //disposition sikoja
@@ -64,21 +62,22 @@ Route::middleware(['auth:sanctum', 'isVerified'])->group(function () {
 
 // must verified and just admin
 Route::middleware(['auth:sanctum', 'isVerified', 'isAdmin'])->group(function () {
+    Route::get('user', [AuthController::class, 'user']);
+    Route::post('register', [AuthController::class, 'register']);
+    Route::delete('user/{id}', [AuthController::class, 'destroy']);
     Route::post('street', [StreetController::class, 'store']);
     Route::patch('street/{id}', [StreetController::class, 'update']);
     Route::delete('street/{id}', [StreetController::class, 'destroy']);
     Route::post('village', [VillageController::class, 'store']);
     Route::patch('village/{id}', [VillageController::class, 'update']);
     Route::delete('village/{id}', [VillageController::class, 'destroy']);
-    Route::post('register', [AuthController::class, 'register']);
-    Route::get('user', [AuthController::class, 'user']);
     Route::get('check-token', [AuthController::class, 'tokenCheck']);
     Route::post('category', [CategoryController::class, 'store']);
     Route::patch('category/{id}', [CategoryController::class, 'update']);
     Route::post('instance', [InstanceController::class, 'store']);
-    Route::patch('instance', [InstanceController::class, 'update']);
+    Route::patch('instance/{id}', [InstanceController::class, 'update']);
     Route::get('status', [StatusController::class, 'index']);
     Route::post('status', [StatusController::class, 'store']);
-    Route::patch('status', [StatusController::class, 'update']);
+    Route::patch('status/{id}', [StatusController::class, 'update']);
     Route::post('sikojadisp', [SikojadispController::class, 'store']);
 });
