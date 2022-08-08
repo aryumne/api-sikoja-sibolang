@@ -1,22 +1,23 @@
 <?php
 
-namespace App\Http\Controllers\SikojaDispotition;
+namespace App\Http\Controllers\Sibolang;
 
-use App\Models\Sikojadisp;
+use App\Models\Sibolangdisp;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\FileSibolangdisp;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
 
-class SikojadispController extends Controller
+class SibolangdispController extends Controller
 {
     public function index()
     {
         try {
             $response = [
-                'message' => "Data Disposisi SIKOJA Disposisi",
-                'data' => Sikojadisp::with(['sikoja', 'file', 'instance'])->latest()->get()
+                'message' => "Data Disposisi SIBOLANG Disposisi",
+                'data' => Sibolangdisp::with(['sibolang', 'file_sibolangdisp', 'instance'])->latest()->get()
             ];
             return response()->json($response, Response::HTTP_OK);
         } catch (QueryException $e) {
@@ -29,15 +30,15 @@ class SikojadispController extends Controller
     public function show($id)
     {
         try {
-            $sikojadisp = Sikojadisp::where('sikoja_id', $id)->with(['sikoja', 'file', 'instance'])->get();
-            if (count($sikojadisp) === 0) {
+            $sibolangdisp = Sibolangdisp::where('sibolang_id', $id)->with(['sibolang', 'file_sibolangdisp', 'instance'])->get();
+            if (count($sibolangdisp) === 0) {
                 return response()->json([
                     "message" => "Data tidak ditemukan!",
                 ], Response::HTTP_BAD_REQUEST);
             }
             $response = [
-                'message' => "Data Pengaduan SIKOJA Disposisi",
-                'data' => $sikojadisp
+                'message' => "Data Pengaduan SIKOJA",
+                'data' => $sibolangdisp
             ];
             return response()->json($response, Response::HTTP_OK);
         } catch (QueryException $e) {
@@ -50,7 +51,7 @@ class SikojadispController extends Controller
     public function store(Request $input)
     {
         $validator = Validator::make($input->all(), [
-            'sikoja_id' => ['required', 'numeric'],
+            'sibolang_id' => ['required', 'numeric'],
             'instance_id' => ['required', 'numeric'],
         ]);
 
@@ -60,8 +61,8 @@ class SikojadispController extends Controller
             ], Response::HTTP_BAD_REQUEST);
         }
         try {
-            $data = Sikojadisp::create([
-                'sikoja_id' => $input->sikoja_id,
+            $data = Sibolangdisp::create([
+                'sibolang_id' => $input->sibolang_id,
                 'instance_id' => $input->instance_id,
             ]);
             $response = [
@@ -91,7 +92,7 @@ class SikojadispController extends Controller
             ], Response::HTTP_BAD_REQUEST);
         }
         try {
-            $disp = Sikojadisp::find($id);
+            $disp = Sibolangdisp::find($id);
             $disp->instance_id = $input->instance_id !== null ? $input->instance_id : $disp->instance_id;
             $disp->start_date = $input->start_date !== null ? $input->start_date : $disp->start_date;
             $disp->description = $input->description !== null ? $input->description : $disp->description;
@@ -101,6 +102,35 @@ class SikojadispController extends Controller
                 'message' => "Data telah diupdate!",
             ];
             return response()->json($response, Response::HTTP_CREATED);
+        } catch (QueryException $e) {
+            return response()->json([
+                'message' => $e->errorInfo,
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+    }
+
+    public function uploadFiles(Request $input)
+    {
+        $validator = Validator::make($input->all(), [
+            'file' => ['required', 'mimes:png,jpg,mp4,mov,jpeg,pdf', 'file', 'max:20480'],
+            'sibolangdisp_id' => ['required', 'numeric']
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => $validator->errors(),
+            ], Response::HTTP_BAD_REQUEST);
+        }
+        try {
+            $file = $input->file('file');
+            $fileName = $file->getClientOriginalName();
+            $storeImage = $file->storeAs('file', str_replace(" ", "-", $fileName));
+            FileSibolangdisp::create([
+                'sibolangdisp_id' => $input->sibolangdisp_id,
+                'path' => 'storage/' . $storeImage,
+                'filename' => $fileName
+            ]);
+            return response()->json(['message' => "File Berhasil Diupload"], Response::HTTP_CREATED);
         } catch (QueryException $e) {
             return response()->json([
                 'message' => $e->errorInfo,
