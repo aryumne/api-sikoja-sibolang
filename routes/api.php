@@ -10,6 +10,7 @@ use App\Http\Controllers\Sikoja\GaleryController;
 use App\Http\Controllers\Sikoja\SikojaController;
 use App\Http\Controllers\Master\VillageController;
 use App\Http\Controllers\Master\CategoryController;
+use App\Http\Controllers\Master\DistrictController;
 use App\Http\Controllers\Master\InstanceController;
 use App\Http\Controllers\Sibolang\SibolangController;
 use App\Http\Controllers\Sibolang\SibolangdispController;
@@ -101,6 +102,9 @@ Route::middleware(['auth:sanctum', 'isVerified', 'isAdmin'])->group(function () 
     Route::post('street', [StreetController::class, 'store']);
     Route::patch('street/{id}', [StreetController::class, 'update']);
     Route::delete('street/{id}', [StreetController::class, 'destroy']);
+
+    //District
+    Route::resource('district', DistrictController::class);
 
     //village
     Route::post('village', [VillageController::class, 'store']);

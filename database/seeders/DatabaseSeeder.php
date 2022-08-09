@@ -7,6 +7,8 @@ use Database\Seeders\RoleSeeder;
 use Database\Seeders\UserSeeder;
 use Database\Seeders\StatusSeeder;
 use Database\Seeders\CategorySeeder;
+use Database\Seeders\DistrictSeeder;
+use Database\Seeders\InstanceSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -22,6 +24,8 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             CategorySeeder::class,
             UserSeeder::class,
+            DistrictSeeder::class,
+            InstanceSeeder::class
         ]);
     }
 }

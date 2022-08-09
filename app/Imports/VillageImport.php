@@ -15,8 +15,8 @@ class VillageImport implements ToModel
     public function model(array $row)
     {
         return new Village([
-            'village' => $row[0],
-            'district_id' => 1,
+            'district_id' => $row[0],
+            'village' => $row[1],
         ]);
     }
 }

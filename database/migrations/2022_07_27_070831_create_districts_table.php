@@ -15,7 +15,7 @@ class CreateDistrictsTable extends Migration
     {
         Schema::create('districts', function (Blueprint $table) {
             $table->id();
-            $table->string('distric');
+            $table->string('district');
             $table->foreignId('city_id')->default(1);
             $table->timestamps();
         });
