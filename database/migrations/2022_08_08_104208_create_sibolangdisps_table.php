@@ -15,7 +15,7 @@ class CreateSibolangdispsTable extends Migration
     {
         Schema::create('sibolangdisps', function (Blueprint $table) {
             $table->id();
-            $table->string('description')->nullable();
+            $table->text('description')->nullable();
             $table->foreignId('sibolang_id');
             $table->foreignId('instance_id');
             $table->dateTime('start_date')->nullable();

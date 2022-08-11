@@ -16,7 +16,7 @@ class CreateSikojasTable extends Migration
         Schema::create('sikojas', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('description');
+            $table->text('description');
             $table->string('name');
             $table->char('hp', 12);
             $table->foreignId('village_id');

@@ -15,7 +15,7 @@ class CreateFileSibolangdispsTable extends Migration
     {
         Schema::create('file_sibolangdisps', function (Blueprint $table) {
             $table->id();
-            $table->string('path');
+            $table->text('path');
             $table->string('filename');
             $table->foreignId('sibolangdisp_id');
             $table->timestamps();

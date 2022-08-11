@@ -15,7 +15,7 @@ class CreateGalerySibolangsTable extends Migration
     {
         Schema::create('galery_sibolangs', function (Blueprint $table) {
             $table->id();
-            $table->string('path');
+            $table->text('path');
             $table->string('filename');
             $table->foreignId('sibolang_id');
             $table->timestamps();

@@ -15,7 +15,7 @@ class CreateSikojadispsTable extends Migration
     {
         Schema::create('sikojadisps', function (Blueprint $table) {
             $table->id();
-            $table->string('description')->nullable();
+            $table->text('description')->nullable();
             $table->foreignId('sikoja_id');
             $table->foreignId('instance_id');
             $table->dateTime('start_date')->nullable();
