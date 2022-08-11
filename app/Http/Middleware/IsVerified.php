@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Symfony\Component\HttpFoundation\Response;
 
-class isVerified
+class IsVerified
 {
     /**
      * Handle an incoming request.
