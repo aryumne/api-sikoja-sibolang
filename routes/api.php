@@ -15,6 +15,7 @@ use App\Http\Controllers\Auth\RegistrationController;
 use App\Http\Controllers\Sibolang\SibolangController;
 use App\Http\Controllers\Auth\AuthenticationController;
 use App\Http\Controllers\Auth\ChangePasswordController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\Sibolang\SibolangdispController;
 use App\Http\Controllers\SikojaDispotition\FileController;
 use App\Http\Controllers\SikojaDispotition\SikojadispController;
@@ -34,6 +35,7 @@ use App\Http\Controllers\SikojaDispotition\SikojadispController;
 Route::post('login', [AuthenticationController::class, 'login']);
 Route::post('forgot-password', [ChangePasswordController::class, 'forgotPassword']);
 Route::post('reset-password', [ChangePasswordController::class, 'resetPassword']);
+
 
 //sikoja
 Route::get('sikoja', [SikojaController::class, 'index']);
@@ -71,12 +73,16 @@ Route::get('village', [VillageController::class, 'index']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('resend-verify-email', [VerficationController::class, 'resendEmailVerification']);
     Route::post('verify-email', [VerficationController::class, 'verifyEmail']);
+    Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+        $request->fulfill();
+    })->name('verification.verify');
 });
 
 //must verified
 Route::middleware(['auth:sanctum', 'isVerified'])->group(function () {
     //user
     Route::post('logout', [AuthenticationController::class, 'logout']);
+    Route::get('user/{id}', [AuthenticationController::class, 'user']);
     Route::patch('user/{id}', [RegistrationController::class, 'updateProfile']);
 
     //update status sikoja

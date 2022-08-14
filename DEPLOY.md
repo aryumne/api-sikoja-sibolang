@@ -7,5 +7,6 @@
     6. generate key dengan menjalankan perintah "php artisan key:generate"
     7. jalankan perintah "composer install"
     8. jalan perintah "php artisan storage:link"
-    9. Ubah url pada file app/Notifications/SendNotifications.php sesuai dengan domain project admin
+    9. Ubah url pada file app/Notifications/EmailVerificationNotification.php sesuai dengan domain project admin
+    10. Ubah url pada file app/models/user.php sesuai dengan domain project admin
     

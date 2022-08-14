@@ -6,10 +6,10 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Auth\Events\Registered;
 use App\Notifications\SendNotification;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Validator;
-use Notification;
 use Symfony\Component\HttpFoundation\Response;
 
 class AuthenticationController extends Controller
@@ -33,8 +33,7 @@ class AuthenticationController extends Controller
                 $user = User::where('username', $input->username)->first();
                 // cek apakah akun ini sudah diverifikasi atau belum
                 if (!$user->hasVerifiedEmail()) {
-                    // kalau belum maka kirimkan email verifikasi
-                    Notification::send($user, new SendNotification($user));
+                    event(new Registered($user));
                     return response()->json([
                         'message' => 'Link verfikasi telah dikirim ke email anda',
                         'data' => [
@@ -53,6 +52,26 @@ class AuthenticationController extends Controller
             } else {
                 return response()->json([
                     'message' => 'User tidak ditemukan'
+                ], Response::HTTP_UNAUTHORIZED);
+            }
+        } catch (QueryException $e) {
+            return response()->json([
+                'message' => $e->errorInfo
+            ], Response::HTTP_UNAUTHORIZED);
+        }
+    }
+
+    public function user($id)
+    {
+        try {
+            $user = User::where('username', $id)->first();
+            if ($user) {
+                return response()->json([
+                    'message' => 'Ok'
+                ], Response::HTTP_OK);
+            } else {
+                return response()->json([
+                    'message' => 'user not found'
                 ], Response::HTTP_UNAUTHORIZED);
             }
         } catch (QueryException $e) {

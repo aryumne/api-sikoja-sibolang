@@ -7,8 +7,9 @@ use App\Models\Instance;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Notifications\ResetPasswordNotification;
+use App\Notifications\EmailVerificationNotification;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements MustVerifyEmail
@@ -60,8 +61,14 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function sendPasswordResetNotification($token)
     {
-        $url = 'https://example.com/reset-password?token=' . $token;
+        $url = 'http://localhost:3000/reset-password?token=' . $token;
 
         $this->notify(new ResetPasswordNotification($url));
+    }
+
+    public function sendEmailVerificationNotification()
+    {
+        // We override the default notification and will use our own
+        $this->notify(new EmailVerificationNotification());
     }
 }

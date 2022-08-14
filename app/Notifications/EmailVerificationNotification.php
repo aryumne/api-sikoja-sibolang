@@ -2,25 +2,21 @@
 
 namespace App\Notifications;
 
-use App\Models\User;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class SendNotification extends Notification
+class EmailVerificationNotification extends VerifyEmail
 {
     use Queueable;
-    private $user;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(User $user)
+    public function __construct()
     {
-        $this->user = $user;
     }
 
     /**
@@ -42,10 +38,13 @@ class SendNotification extends Notification
      */
     public function toMail($notifiable)
     {
+
+        $prefix = 'http://localhost:3000/verify-me?url=';
+        $verificationUrl = $this->verificationUrl($notifiable);
         return (new MailMessage)
-            ->greeting('Halo, ' . $this->user->name)
+            ->greeting('Halo, ')
             ->line('Klik link dibawah ini untuk verifikasi akun anda.')
-            ->action('Verifikasi', url('http://localhost:3000/verify-me/' . $this->user->username))
+            ->action('Verifikasi', url($prefix . urlencode($verificationUrl)))
             ->line('Thank you for using our application!');
     }
 

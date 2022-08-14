@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Notification;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Auth\Events\Registered;
 use App\Notifications\SendNotification;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Validator;
-use Notification;
 use Symfony\Component\HttpFoundation\Response;
 
 class VerficationController extends Controller
@@ -63,7 +64,7 @@ class VerficationController extends Controller
                 ], Response::HTTP_FORBIDDEN);
             } else {
                 // kalau belum maka kirimkan email verifikasi
-                Notification::send($user, new SendNotification($user));
+                event(new Registered($user));
                 return response()->json([
                     'message' => 'Link verfikasi telah dikirim ke email anda'
                 ], Response::HTTP_OK);
