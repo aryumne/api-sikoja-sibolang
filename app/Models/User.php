@@ -4,11 +4,11 @@ namespace App\Models;
 
 use App\Models\Role;
 use App\Models\Instance;
-use App\Notifications\CustomURL;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Notifications\ResetPasswordNotification;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements MustVerifyEmail
@@ -56,5 +56,12 @@ class User extends Authenticatable implements MustVerifyEmail
     public function instance()
     {
         return $this->belongsTo(Instance::class);
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $url = 'https://example.com/reset-password?token=' . $token;
+
+        $this->notify(new ResetPasswordNotification($url));
     }
 }

@@ -1,8 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ImportController;
 use App\Http\Controllers\Master\StatusController;
 use App\Http\Controllers\Master\StreetController;
@@ -12,7 +10,11 @@ use App\Http\Controllers\Master\VillageController;
 use App\Http\Controllers\Master\CategoryController;
 use App\Http\Controllers\Master\DistrictController;
 use App\Http\Controllers\Master\InstanceController;
+use App\Http\Controllers\Auth\VerficationController;
+use App\Http\Controllers\Auth\RegistrationController;
 use App\Http\Controllers\Sibolang\SibolangController;
+use App\Http\Controllers\Auth\AuthenticationController;
+use App\Http\Controllers\Auth\ChangePasswordController;
 use App\Http\Controllers\Sibolang\SibolangdispController;
 use App\Http\Controllers\SikojaDispotition\FileController;
 use App\Http\Controllers\SikojaDispotition\SikojadispController;
@@ -29,7 +31,9 @@ use App\Http\Controllers\SikojaDispotition\SikojadispController;
 */
 
 //Auth
-Route::post('login', [AuthController::class, 'login']);
+Route::post('login', [AuthenticationController::class, 'login']);
+Route::post('forgot-password', [ChangePasswordController::class, 'forgotPassword']);
+Route::post('reset-password', [ChangePasswordController::class, 'resetPassword']);
 
 //sikoja
 Route::get('sikoja', [SikojaController::class, 'index']);
@@ -65,15 +69,15 @@ Route::get('village', [VillageController::class, 'index']);
 
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::post('resend-verify-email', [AuthController::class, 'resendEmailVerification']);
-    Route::post('verify-email', [AuthController::class, 'verifyEmail']);
+    Route::post('resend-verify-email', [VerficationController::class, 'resendEmailVerification']);
+    Route::post('verify-email', [VerficationController::class, 'verifyEmail']);
 });
 
 //must verified
 Route::middleware(['auth:sanctum', 'isVerified'])->group(function () {
     //user
-    Route::post('logout', [AuthController::class, 'logout']);
-    Route::patch('user/{id}', [AuthController::class, 'updateProfile']);
+    Route::post('logout', [AuthenticationController::class, 'logout']);
+    Route::patch('user/{id}', [RegistrationController::class, 'updateProfile']);
 
     //update status sikoja
     Route::patch('updateStatus/{id}', [SikojaController::class, 'updateStatus']);
@@ -93,10 +97,9 @@ Route::middleware(['auth:sanctum', 'isVerified'])->group(function () {
 // must verified and just admin
 Route::middleware(['auth:sanctum', 'isVerified', 'isAdmin'])->group(function () {
     //user
-    Route::post('register', [AuthController::class, 'register']);
-    Route::get('user', [AuthController::class, 'user']);
-    Route::delete('user/{id}', [AuthController::class, 'destroy']);
-    // Route::get('check-token', [AuthController::class, 'tokenCheck']);
+    Route::post('register', [RegistrationController::class, 'register']);
+    Route::get('user', [RegistrationController::class, 'user']);
+    Route::delete('user/{id}', [RegistrationController::class, 'destroy']);
 
     //street
     Route::post('street', [StreetController::class, 'store']);
