@@ -27,13 +27,35 @@ class UserSeeder extends Seeder
         ]);
 
         User::create([
-            'name' => 'Admin SIKOJA-SIBOLANG',
-            'username' => 'admin',
-            'password' => Hash::make('sikoja_sibolang'),
+            'name' => 'James Woria',
+            'username' => 'james873',
+            'password' => Hash::make('james873'),
             'role_id' => 2,
             'instance_id' => 2,
-            'email' => 'admin@gmail.com',
-            'hp' => null,
+            'email' => 'jameswr873@gmail.com',
+            'hp' => '081344708219',
+            'email_verified_at' => now()
+        ]);
+
+        User::create([
+            'name' => 'Istirja P.Siregar',
+            'username' => 'ucokpu',
+            'password' => Hash::make('ucokpu'),
+            'role_id' => 2,
+            'instance_id' => 2,
+            'email' => 'ucok.pu.75@gmail.com',
+            'hp' => '081343493839',
+            'email_verified_at' => now()
+        ]);
+
+        User::create([
+            'name' => 'Endah S.',
+            'username' => 'endah',
+            'password' => Hash::make('endah'),
+            'role_id' => 2,
+            'instance_id' => 2,
+            'email' => 'endahsidey@gmail.com',
+            'hp' => '08114858097',
             'email_verified_at' => now()
         ]);
     }
