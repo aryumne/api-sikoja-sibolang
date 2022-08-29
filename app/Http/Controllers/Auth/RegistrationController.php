@@ -37,6 +37,7 @@ class RegistrationController extends Controller
             'password' => ['required', 'confirmed', Password::min(8)],
             'role_id' => ['required', 'numeric'],
             'instance_id' => ['required', 'numeric'],
+            'hp' => ['required', 'numeric'],
         ]);
 
         if ($validator->fails()) {
@@ -53,6 +54,7 @@ class RegistrationController extends Controller
                 'password' => Hash::make($input->password),
                 'role_id' => $input->role_id,
                 'instance_id' => $input->instance_id,
+                'hp' => $input->hp,
             ]);
             return response()->json([
                 'message' => 'User berhasil register',
@@ -73,6 +75,7 @@ class RegistrationController extends Controller
             'email' => ['email:rfc,dns', 'unique:users', 'nullable'],
             'role_id' => ['numeric', 'nullable'],
             'instance_id' => ['numeric', 'nullable'],
+            'hp' => ['numeric', 'nullable'],
         ];
         try {
             $user = User::find($id);
@@ -96,6 +99,7 @@ class RegistrationController extends Controller
             $user->email = $input->email !== null ? $input->email : $user->email;
             $user->role_id = $input->role_id !== null ? $input->role_id : $user->role_id;
             $user->instance_id = $input->instance_id !== null ? $input->instance_id : $user->instance_id;
+            $user->hp = $input->hp !== null ? $input->hp : $user->hp;
             $user->save();
             return response()->json([
                 'message' => 'User telah diupdate',
