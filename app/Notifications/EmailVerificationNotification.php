@@ -39,7 +39,7 @@ class EmailVerificationNotification extends VerifyEmail
     public function toMail($notifiable)
     {
 
-        $prefix = 'http://localhost:3000/verify-me?url=';
+        $prefix = 'http://mkwlapor.com/verify-me?url=';
         $verificationUrl = $this->verificationUrl($notifiable);
         return (new MailMessage)
             ->greeting('Halo, ')
